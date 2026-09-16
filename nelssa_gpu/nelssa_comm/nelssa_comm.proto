@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package nelssa_comm;
+
+// 1. 모델 설정
+message ModelConfig {
+    int32 num_layers = 1;
+    int32 num_heads = 2;
+    int32 kv_heads = 3;
+    int32 head_dim = 4;
+    int32 n_clusters = 5;
+    int32 cache_unit_size = 6;
+    int32 n_probe = 7;
+    string dtype = 8;
+}
+
+// 2. RDMA 버퍼 정보
+message RdmaConnInfo {
+    uint64 addr = 1;
+    uint32 rkey = 2;
+    uint32 qp_num = 3;
+    uint32 lid = 4;
+    bytes gid = 5;
+}
+
+// --- API 1: InitializeSession ---
+message InitializeSessionRequest {
+    ModelConfig config = 1;
+    RdmaConnInfo client_decode_info = 2;
+}
+
+message InitializeSessionReply {
+    bool success = 1;
+    RdmaConnInfo server_decode_info = 2;
+}
+
+// --- API 2: Prefill Start ---
+message SendKVStartRequest {
+    string request_id = 1;
+    int32 layer_idx = 2;
+    int64 k_cache_bytes = 3;
+    int64 v_cache_bytes = 4;
+    // [중요] 변수명 통일
+    int64 size_cache_bytes = 5;
+    int32 current_n_clusters = 6;
+}
+
+message SendKVStartReply {
+    uint64 k_buffer_addr = 1;
+    uint32 k_buffer_rkey = 2;
+    uint64 v_buffer_addr = 3;
+    uint32 v_buffer_rkey = 4;
+    // [중요] 변수명 통일
+    uint64 size_buffer_addr = 5;
+    uint32 size_buffer_rkey = 6;
+}
+
+// --- API 3: Prefill Complete ---
+message SendKVCompleteRequest {
+    string request_id = 1;
+    int32 layer_idx = 2;
+    int32 batch_size = 3;
+    int32 kv_heads = 4;
+    int32 seqlen = 5;
+}
+message SendKVCompleteReply {
+    bool success = 1;
+}
+
+service NelssaCoordinator {
+    rpc InitializeSession(InitializeSessionRequest) returns (InitializeSessionReply);
+    rpc SendKVStart(SendKVStartRequest) returns (SendKVStartReply);
+    rpc SendKVComplete(SendKVCompleteRequest) returns (SendKVCompleteReply);
+}
+
+

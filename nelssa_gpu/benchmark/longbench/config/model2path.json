@@ -1,0 +1,6 @@
+{
+    "llama-3-8b-1048k": "/home/sylee/dataset/Llama-3-8B-Instruct-Gradient-1048k",
+    "llama-3.1-8b": "/home/sylee/dataset/Llama-3.1-8B-Instruct",
+    "qwen2.5-7b": "Qwen/Qwen2.5-7B-Instruct",
+    "qwen2.5-72b": "Qwen/Qwen2.5-72B-Instruct"
+}
