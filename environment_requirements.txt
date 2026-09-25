@@ -140,7 +140,7 @@ pillow==12.3.0
 prometheus-fastapi-instrumentator==8.0.2
 prometheus_client==0.25.0
 propcache==0.5.2
-protobuf==6.33.6
+protobuf==7.36.2
 psutil==7.2.2
 py-cpuinfo==9.0.0
 pybase64==1.4.3
