@@ -1,9 +1,9 @@
 tqdm
-ninja==1.11.1.4
+ninja==1.13.2
 termcolor
 packaging==25.0
 torch==2.5.1
-vllm==0.6.5
+vllm==0.31.0
 transformers==4.49.0
 pybind11==2.12.0
 
@@ -17,7 +17,7 @@ rouge_score==0.1.2
 wonderwords==2.2.0
 html2text==2024.2.26
 bs4==0.0.2
-scipy==1.13.0
+scipy==1.15.3
 
 jieba==0.42.1
 fuzzywuzzy==0.18.0
